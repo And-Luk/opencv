@@ -25,14 +25,15 @@ CXX = clang++
 # -Wall: включить все предупреждения
 #works CXXFLAGS = -std=c++20 -Wall -g
 #CXXFLAGS = -Wall -Wpedantic -Wextra -fdiagnostics-color=always  -std=c++20 -g
-CXXFLAGS = -Wall -Wpedantic -std=c++20 -v
-
+#CXXFLAGS = -Wall -Wpedantic -std=c++20 -v
+CXXFLAGS= -O2 -v -g -Wall -mmacosx-version-min=26.0.1 -fmessage-length=0
 
 # Директории для поиска заголовочных файлов (необязательно)
 #INCLUDE_DIRS = -I/путь/к/заголовкам  -I /opt/homebrew/Cellar/opencv/4.12.0_11/include/opencv4
 #works  INCLUDE_DIRS =  -I.
 #INCLUDE_DIRS =  -I $(shell pwd)
 INCLUDE_DIRS =  -I /opt/homebrew/Cellar/opencv/4.12.0_11/include/opencv4
+#CPPFLAGS = -I/usr/local/Cellar/opencv/2.4.6.1/include
 
 
 # Директории для поиска библиотек
@@ -41,6 +42,8 @@ INCLUDE_DIRS =  -I /opt/homebrew/Cellar/opencv/4.12.0_11/include/opencv4
 # LIBRARY_DIRS = -L $(shell pwd)/libxl/lib
 # LIBRARY_DIRS = -L $(shell pwd)/
 LIBRARY_DIRS = -L /opt/homebrew/Cellar/opencv/4.12.0_11/lib
+# LDFLAGS = -L/usr/local/Cellar/opencv/2.4.6.1/lib
+
 
 #g++ webcam_opencv.cpp -o webcam_demo
 #-I/usr/include/opencv4
@@ -53,7 +56,23 @@ LIBRARY_DIRS = -L /opt/homebrew/Cellar/opencv/4.12.0_11/lib
 # Например, для libmylib.a используйте -lmylib
 #LIBRARIES = -lmylib -lother_lib
 # LIBRARIES = -lxl
-LIBRARIES = -lopencv_core -lopencv_videoio -lopencv_highgui
+# works LIBRARIES = -lopencv_core \
+-lopencv_videoio \
+-lopencv_highgui
+
+LIBRARIES =  -lopencv_core \
+	-lopencv_videoio \
+	-lopencv_highgui \
+	-lopencv_imgproc \
+	-lopencv_calib3d \
+	-lopencv_video \
+	-lopencv_features2d \
+	-lopencv_ml \
+	-lopencv_objdetect #\-lopencv_gpu -lopencv_contrib -lopencv_legacy
+#LDLIBS =  -lopencv_core -lopencv_imgproc -lopencv_calib3d -lopencv_video \
+
+
+
 
 
 # Имена исходных файлов проекта (например, main.cpp, my_class.cpp)
@@ -73,7 +92,7 @@ EXECUTABLE = main
 	#	:@echo "recipe prefix symbol is set to '$(.RECIPEPREFIX)' "
 
 # Правила сборки
-
+.PHONY: all
 # Цель по умолчанию: создать исполняемый файл (первая цель в файле)
 # При выполнении 'make' без аргументов, эта цель будет выполнена
 all: $(EXECUTABLE)
@@ -91,12 +110,12 @@ all: $(EXECUTABLE)
 # Правило для создания исполняемого файла из объектных файлов
 $(EXECUTABLE): $(OBJECTS)
 	#$(CXX) $(CXXFLAGS) $(OBJECTS) $(LIBRARY_DIRS) -o $(EXECUTABLE) $(LIBRARIES)
-		$(CXX) $(CXXFLAGS) $(OBJECTS) $(LIBRARY_DIRS) -o $(EXECUTABLE) $(LIBRARIES)
+		$(CXX) $(CXXFLAGS) $(OBJECTS) $(LIBRARY_DIRS)  $(LIBRARIES) -o $(EXECUTABLE) 
 
 
 
 main.o: main.cpp
-	$(CXX) $(CXXFLAGS)  $(INCLUDE_DIRS) $(LIBRARY_DIRS) -c $< -o $@
+	$(CXX) $(CXXFLAGS)  $(INCLUDE_DIRS)  -c $< -o $@   #  $(LIBRARY_DIRS)  $(LIBRARIES) 
 
 
 # Правило для компиляции .cpp файлов в .o файлы
