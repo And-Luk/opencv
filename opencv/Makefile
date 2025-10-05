@@ -28,6 +28,12 @@ CXX = clang++
 #CXXFLAGS = -Wall -Wpedantic -std=c++20 -v
 CXXFLAGS= -O2 -v -g -Wall -mmacosx-version-min=26.0.1 -fmessage-length=0
 
+
+
+#g++ webcam_opencv.cpp -o webcam_demo
+#-I/usr/include/opencv4
+
+
 # Директории для поиска заголовочных файлов (необязательно)
 #INCLUDE_DIRS = -I/путь/к/заголовкам  -I /opt/homebrew/Cellar/opencv/4.12.0_11/include/opencv4
 #works  INCLUDE_DIRS =  -I.
@@ -43,15 +49,11 @@ INCLUDE_DIRS =  -I /usr/local/include/opencv4
 # works LIBRARY_DIRS = -L./libxl/lib
 # LIBRARY_DIRS = -L $(shell pwd)/libxl/lib
 # LIBRARY_DIRS = -L $(shell pwd)/
-LIBRARY_DIRS = -L /usr/local/lib
-#LIBRARY_DIRS = -L /opt/homebrew/Cellar/opencv/4.12.0_11/lib
+#LIBRARY_DIRS = -L /usr/local/lib -L /Users/and/workspace/opencv_contrib/modules
+
+
+LIBRARY_DIRS = -L /opt/homebrew/Cellar/opencv/4.12.0_11/lib
 # LDFLAGS = -L/usr/local/Cellar/opencv/2.4.6.1/lib
-
-
-
-#g++ webcam_opencv.cpp -o webcam_demo
-#-I/usr/include/opencv4
-
 
 
 # Флаг -l указывает, какую библиотеку нужно подключить.
@@ -72,9 +74,12 @@ LIBRARIES =  -lopencv_core \
 	-lopencv_video \
 	-lopencv_features2d \
 	-lopencv_ml \
-	-lopencv_objdetect #\-lopencv_gpu -lopencv_contrib -lopencv_legacy
+	-lopencv_objdetect \
+	-lopencv_imgcodecs \
+	-lstdc++
+	
+	#\-lopencv_gpu -lopencv_contrib -lopencv_legacy
 #LDLIBS =  -lopencv_core -lopencv_imgproc -lopencv_calib3d -lopencv_video \
-
 
 
 
@@ -114,12 +119,12 @@ all: $(EXECUTABLE)
 # Правило для создания исполняемого файла из объектных файлов
 $(EXECUTABLE): $(OBJECTS)
 	#$(CXX) $(CXXFLAGS) $(OBJECTS) $(LIBRARY_DIRS) -o $(EXECUTABLE) $(LIBRARIES)
-		$(CXX) $(CXXFLAGS) $(OBJECTS) $(LIBRARY_DIRS)  $(LIBRARIES) -o $(EXECUTABLE) 
+		$(CXX) $(CXXFLAGS) $(OBJECTS) $(LIBRARY_DIRS) $(LIBRARIES) -o $(EXECUTABLE)
 
 
 
 main.o: main.cpp
-	$(CXX) $(CXXFLAGS)  $(INCLUDE_DIRS)  $(LIBRARY_DIRS)  $(LIBRARIES) -c $< -o $@   #  $(LIBRARY_DIRS)  $(LIBRARIES) 
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $< -o $@   #  	$(LIBRARY_DIRS)  $(LIBRARIES)
 
 
 # Правило для компиляции .cpp файлов в .o файлы

@@ -36,20 +36,20 @@ int main(int argc, const char * argv[]) {
        while (1) {
            // capture the next frame from the webcam
            camera >> image;
-           // show the image on the window
            
-           //cv::imwrite("./first.png", image);
-           //cv::haveImageWriter("first.jpg");
-           //cv::imwrite("image_name.jpg", image);
+           
+           cv::imwrite("./Pictures/Screenshot.jpg", image);
+
            
            //bool isSaved = cv::imwrite("./first.png", image);
-           cv::imshow("Webcam", image);
+           
+           // show the image on the window
+           //cv::imshow("Webcam", image);
+           
            // wait (10ms) for esc key to be pressed to stop
-           
-           
-               cv::waitKey(0);
-               cv::destroyAllWindows();
-           
+           //cv::waitKey(0);
+           cv::destroyAllWindows();
+           break;
            
            //if (cv::waitKey(10) == 27)    break;
            //waitKey(10);
