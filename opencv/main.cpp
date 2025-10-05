@@ -38,7 +38,7 @@ int main(int argc, const char * argv[]) {
            camera >> image;
            // show the image on the window
            
-           cv::imwrite("./first.png", image);
+           //cv::imwrite("./first.png", image);
            //cv::haveImageWriter("first.jpg");
            //cv::imwrite("image_name.jpg", image);
            
