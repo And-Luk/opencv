@@ -4,8 +4,8 @@
 //
 //  Created by Andrei Lukashevich on 04-10-2025.
 //
-//#include "header.h"
-#include <iostream>
+#include "header.h"
+//#include <iostream>
 //#include <opencv2/opencv.hpp>
 //###2
 #include <opencv2/core.hpp>
@@ -19,6 +19,22 @@ using namespace cv;
 int main(int argc, const char * argv[]) {
   
 //#if 0
+    
+    std::string Screenshot_name{"./Pictures/Screenshot "};
+    std::time_t rawtime;
+    std::tm* timeinfo;
+    char buffer [80];
+
+    std::time(&rawtime);
+    timeinfo = std::localtime(&rawtime);
+    std::strftime(buffer,80,"%d-%m-%Y %H:%M:%S",timeinfo);   //%Y-%m-%d-%H-%M-%S    %d-%m-%Y    %H:%M:%S
+    //cout<<"\033[31m"<<endl;
+    //std::printf("%s",buffer);
+    //std::puts(buffer);
+       
+    Screenshot_name.append(buffer);
+    Screenshot_name.append(".jpg");
+    
     // open the first webcam plugged in the computer
        cv::VideoCapture camera(0); // in linux check $ ls /dev/video0
        if (!camera.isOpened()) {
@@ -38,7 +54,7 @@ int main(int argc, const char * argv[]) {
            camera >> image;
            
            
-           cv::imwrite("./Pictures/Screenshot.jpg", image);
+           cv::imwrite(Screenshot_name.c_str(), image);
 
            
            //bool isSaved = cv::imwrite("./first.png", image);
@@ -114,6 +130,6 @@ int main(int argc, const char * argv[]) {
 #endif
     
     
-    std::cout << "Hello, World!\n";
+    //std::cout << "Hello, World!\n";
     return EXIT_SUCCESS;
 }
